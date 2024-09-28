@@ -33,6 +33,16 @@ This extension contributes the following settings:
 3. Type "i18n-translation: Translate I18n" and select it
 4. The extension will translate the file content to the specified target languages, and write the result to the corresponding files in the same directory.
 
+## i18n Text
+
+{content}
+
+You can use the following variables in the prompt:
+
+1. `{i18nFile}`: The name of the i18n file; that is, the current i18n file when you open the command palette using Ctrl+Shift+P.
+2. `{toLang}`: The target language.
+3. `{content}`: The content of the i18n file.
+
 ## Known Issues
 
 Please report any issues on the [GitHub repository](https://github.com/yourusername/i18n-translation/issues).
