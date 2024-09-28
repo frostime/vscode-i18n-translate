@@ -3,22 +3,28 @@
  * @Author       : frostime
  * @Date         : 2024-09-28 13:25:56
  * @FilePath     : /src/extension.ts
- * @LastEditTime : 2024-09-28 19:07:58
+ * @LastEditTime : 2024-09-28 21:49:19
  * @Description  : 
  */
 import * as vscode from 'vscode';
 
 import yaml from 'js-yaml';
-import { createInterfacesFromObject } from 'typescript-interface-generator'
+// import { createInterfacesFromObject } from 'typescript-interface-generator'
 
 import { ConfigManager } from './config';
 import { TranslationService } from './translate-service';
 import { FileHandler } from './file-handler';
 
+import { convertToInterface } from './convert-interface';
+
 export class I18nTranslationExtension {
 	private configManager: ConfigManager;
 	private translationService: TranslationService;
 	private fileHandler: FileHandler;
+
+	private cache = {
+		tsuri: null
+	};
 
 	constructor() {
 		this.configManager = new ConfigManager();
@@ -121,46 +127,28 @@ export class I18nTranslationExtension {
 			return;
 		}
 
-		// 递归遍历 i18n 对象，如果 key 名称里面里面包含了 . - _ 等非字母数字符号，就发出警告并退出
-		// 例如 { 'doc-type': '文档类型' } 这种就不允许
-		const validateI18nObject = (obj: Object, path: string = '') => {
-			for (const key in obj) {
-				if (/[^\w]/gi.test(key)) {
-					vscode.window.showErrorMessage(`Invalid key: "${path}/${key}"`);
-					return false;
-				}
-				if (typeof obj[key] === 'object' && obj[key] !== null) {
-					if (!validateI18nObject(obj[key], `${path}/${key}`)) {
-						return false;
-					}
-				}
-			}
-			return true;
-		};
-
-		if (!validateI18nObject(i18nObject)) {
-			return;
-		}
-
 		// Convert to TypeScript interface
 		let tsContent = '';
 		try {
-			tsContent = createInterfacesFromObject('I18n', i18nObject);
+			tsContent = convertToInterface(i18nObject, 'I18n');
 		} catch (error) {
 			vscode.window.showErrorMessage(`Convert to TypeScript interface error: ${error}`);
 			console.error(error);
 			return;
 		}
 
-		// 获取工作目录
-		const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-		const defaultUri = workspaceFolder
-			? vscode.Uri.joinPath(workspaceFolder.uri, 'i18n.d.ts')
-			: vscode.Uri.file(fileInfo.dir);
+		if (this.cache.tsuri === null) {
+			// 获取工作目录
+			const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+			const defaultUri = workspaceFolder
+				? vscode.Uri.joinPath(workspaceFolder.uri, 'i18n.d.ts')
+					: vscode.Uri.file(fileInfo.dir);
+			this.cache.tsuri = defaultUri;
+		}
 
 		// vscode 选择输出文件
 		const outputUri = await vscode.window.showSaveDialog({
-			defaultUri: defaultUri,
+			defaultUri: this.cache.tsuri,
 			saveLabel: 'Write to',
 			filters: {
 				'TypeScript': ['d.ts'],
@@ -171,7 +159,9 @@ export class I18nTranslationExtension {
 			return;
 		}
 
-		this.fileHandler.writeFile(outputUri.fsPath, tsContent);
+		this.cache.tsuri = outputUri;
+
+		this.fileHandler.writeFile(outputUri.fsPath, tsContent + '\n');
 		vscode.window.showInformationMessage('Write to i18n.d.ts successfully');
 
 	}

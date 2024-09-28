@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/frostime/vscode-i18n-translate.git"
   },
-  "version": "0.2.1",
+  "version": "0.2.2",
   "engines": {
     "vscode": "^1.93.0"
   },
@@ -114,7 +114,6 @@
   },
   "dependencies": {
     "axios": "^1.7.7",
-    "js-yaml": "^4.1.0",
-    "typescript-interface-generator": "^0.0.6"
+    "js-yaml": "^4.1.0"
   }
 }
