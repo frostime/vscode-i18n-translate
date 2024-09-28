@@ -4,10 +4,12 @@
 
 ## 特性
 
-- 使用 GPT API 翻译 i18n 文件（JSON YAML 等文件）
-- 支持多个目标语言
-- 可自定义翻译提示模板
-- 在 VSCode 中易于使用的命令
+- 翻译 I18n 文件为其他语言
+  - 使用 GPT API 翻译 i18n 文件（JSON YAML 等文件）
+  - 支持多个目标语言
+  - 可自定义翻译提示模板
+- 读取 I18n 文件并转换为 d.ts 文件
+  - 自动生成 d.ts 文件，可在 TypeScript 项目中使用
 
 ## 扩展设置
 
@@ -21,6 +23,9 @@
 
 ## 使用方法
 
+
+### 翻译 i18n 文件
+
 > [!TIP]
 > 使用前请首先在设置中配置 GPT API
 
@@ -28,6 +33,12 @@
 2. 按下 `Ctrl+Shift+P`（在 macOS 上为 `Cmd+Shift+P`）打开命令面板
 3. 输入 "i18n-translation: Translate I18n" 并选择它
 4. 扩展将把文件内容翻译成指定的目标语言，并写入到同目录下的相应文件中
+
+### 转换为 d.ts 文件
+
+1. 在 VSCode 中打开一个 i18n 文件（JSON 或 YAML）
+2. 按下 `Ctrl+Shift+P`（在 macOS 上为 `Cmd+Shift+P`）打开命令面板
+3. 输入 "i18n-translation: Convert to d.ts" 并选择它
 
 ## Prompt
 

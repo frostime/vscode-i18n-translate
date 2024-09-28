@@ -6,10 +6,13 @@ A Visual Studio Code Extension for i18n Translation, powered by GPT API.
 
 ## Features
 
-- Translate i18n files (JSON, YAML etc.) using GPT API
-- Support for multiple target languages
-- Customizable translation prompt
-- Easy-to-use command in VSCode
+- Translate I18n files to other languages
+  - Use GPT API to translate i18n files (JSON, YAML, etc.)
+  - Support multiple target languages
+  - Customizable translation prompt templates
+
+- Read I18n files and convert them to d.ts files
+  - Automatically generate d.ts files for use in TypeScript projects
 
 
 ## Extension Settings
@@ -24,6 +27,8 @@ This extension contributes the following settings:
 
 ## Usage
 
+### Translate I18n to Other Languages
+
 > [!TIP]
 > Before using this extension, you need to obtain a GPT API Key and configure the extension settings.
 
@@ -31,6 +36,14 @@ This extension contributes the following settings:
 2. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS) to open the Command Palette
 3. Type "i18n-translation: Translate I18n" and select it
 4. The extension will translate the file content to the specified target languages, and write the result to the corresponding files in the same directory.
+
+
+### Convert to d.ts Files
+
+1. Open an i18n file (JSON or YAML) in VSCode
+2. Press `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) to open the command palet
+3. Type "i18n-translation: Convert to d.ts" and select it
+
 
 ## Prompt
 

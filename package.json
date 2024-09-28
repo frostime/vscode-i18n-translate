@@ -10,13 +10,25 @@
     "type": "git",
     "url": "https://github.com/frostime/vscode-i18n-translate.git"
   },
-  "version": "0.1.1",
+  "version": "0.2.0",
   "engines": {
     "vscode": "^1.93.0"
   },
   "categories": [
     "Other"
   ],
+  "icon": "images/icon.png",
+	"preview": false,
+	"galleryBanner": {
+		"color": "#f0efe7",
+		"theme": "light"
+	},
+	"keywords": [
+		"i18n",
+		"translation",
+    "gpt",
+    "openai"
+	],
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
@@ -24,6 +36,10 @@
       {
         "command": "extension.translateI18n",
         "title": "i18n-translation: Translate I18n"
+      },
+      {
+        "command": "extension.convertI18nToTs",
+        "title": "i18n-translation: Convert I18n to d.ts"
       }
     ],
     "configuration": {
@@ -97,6 +113,8 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
-    "axios": "^1.7.7"
+    "axios": "^1.7.7",
+    "js-yaml": "^4.1.0",
+    "typescript-interface-generator": "^0.0.6"
   }
 }
