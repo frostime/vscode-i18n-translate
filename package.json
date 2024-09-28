@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/frostime/vscode-i18n-translate.git"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "vscode": "^1.93.0"
   },
@@ -46,7 +46,8 @@
         "i18nTranslation.prompt": {
           "type": "string",
           "default": "",
-          "description": "Prompt Template for i18n Translation. The default prompt is applied if this field is empty."
+          "description": "Prompt Template for i18n Translation. The default prompt is applied if this field is empty.",
+          "editPresentation": "multilineText"
         },
         "i18nTranslation.toLangs": {
           "type": "array",
@@ -82,7 +83,7 @@
     "vsce:publish": "vsce publish"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.7",
+    "@types/mocha": "^10.0.8",
     "@types/node": "20.x",
     "@types/vscode": "^1.93.0",
     "@typescript-eslint/eslint-plugin": "^8.3.0",

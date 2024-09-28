@@ -19,7 +19,7 @@ export interface I18nConfig {
 const DEFAULT_PROMPT = {
     zh_CN: `## 任务描述
 
-- 任务: 请将翻译 i18n 文件{i18nFile}的内容（见[## i18n 文本]）
+- 任务: 请将 i18n 文件 {i18nFile} 的内容（见[## i18n 文本]）翻译为别的语言
 - 要求: 
     - 翻译目标语言为: {toLang}
     - 将[## i18n 文本]翻译之后的结果直接输出，注意要保留源格式
