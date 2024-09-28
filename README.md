@@ -36,6 +36,8 @@ This extension contributes the following settings:
 2. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS) to open the Command Palette
 3. Type "i18n-translation: Translate I18n" and select it
 4. The extension will translate the file content to the specified target languages, and write the result to the corresponding files in the same directory.
+    <!-- - If any text are selected, only the selected text will be translated.
+    - If not, the entire file content will be translated. -->
 
 
 ### Convert to d.ts Files
@@ -44,6 +46,9 @@ This extension contributes the following settings:
 2. Press `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) to open the command palet
 3. Type "i18n-translation: Convert to d.ts" and select it
 
+> [!WARNING]
+> The key of the i18n file should only contain letters, numbers, etc. If it contains special characters such as - _ etc., it will directly report an error and terminate the conversion.
+> For example: `{ 'doc-type': 'Document Type' }` is not allowed.
 
 ## Prompt
 

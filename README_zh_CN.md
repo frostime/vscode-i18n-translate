@@ -33,12 +33,18 @@
 2. 按下 `Ctrl+Shift+P`（在 macOS 上为 `Cmd+Shift+P`）打开命令面板
 3. 输入 "i18n-translation: Translate I18n" 并选择它
 4. 扩展将把文件内容翻译成指定的目标语言，并写入到同目录下的相应文件中
+  <!-- - 如果有文本内容被选中，那么会只翻译选中部分的文本
+  - 如果没有文本内容被选中，那么会翻译整个文件内容 -->
 
 ### 转换为 d.ts 文件
 
 1. 在 VSCode 中打开一个 i18n 文件（JSON 或 YAML）
 2. 按下 `Ctrl+Shift+P`（在 macOS 上为 `Cmd+Shift+P`）打开命令面板
 3. 输入 "i18n-translation: Convert to d.ts" 并选择它
+
+> [!WARNING]
+> i18n 文件中的 key 名称应该只包含字母、数字这种合法字符，如果包含 - _ 等特殊字符，则会直接报错并终止转换。
+> 例如：`{ 'doc-type': '文档类型' }` 这种就不允许
 
 ## Prompt
 

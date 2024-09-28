@@ -3,7 +3,7 @@
  * @Author       : frostime
  * @Date         : 2024-09-28 13:25:56
  * @FilePath     : /src/extension.ts
- * @LastEditTime : 2024-09-28 17:51:37
+ * @LastEditTime : 2024-09-28 19:07:58
  * @Description  : 
  */
 import * as vscode from 'vscode';
@@ -54,11 +54,21 @@ export class I18nTranslationExtension {
 			return;
 		}
 
-		return fileInfo;
+		const selection = {
+			startline: editor.selection.start.line,
+			endline: editor.selection.end.line,
+			text: editor.document.getText(editor.selection)
+		};
+
+		return {
+			fileInfo, selection
+		};
 	}
 
 	private async translateI18n() {
-		const fileInfo = this.useCurrentDocument();
+		const { fileInfo, selection } = this.useCurrentDocument();
+
+		//#TODO 后续希望能支持只翻译选中的文本，并细粒度地将对应的翻译行范围插入到翻译后的文件中
 
 		if (!fileInfo) {
 			return;
@@ -89,7 +99,7 @@ export class I18nTranslationExtension {
 	 * - 输出到指定目录
 	 */
 	private async convertI18nToTs() {
-		const fileInfo = this.useCurrentDocument();
+		const { fileInfo } = this.useCurrentDocument();
 
 		if (!fileInfo) {
 			return;
@@ -97,12 +107,38 @@ export class I18nTranslationExtension {
 
 		const content = fileInfo.content;
 		let i18nObject = null;
-		if (fileInfo.ext === '.json') {
-			i18nObject = JSON.parse(content);
-		} else if (fileInfo.ext === '.yaml' || fileInfo.ext === '.yml') {
-			i18nObject = yaml.load(content);
-		} else {
-			vscode.window.showErrorMessage('Must be a JSON or YAML file');
+		try {
+			if (fileInfo.ext === '.json') {
+				i18nObject = JSON.parse(content);
+			} else if (fileInfo.ext === '.yaml' || fileInfo.ext === '.yml') {
+				i18nObject = yaml.load(content);
+			} else {
+				vscode.window.showErrorMessage('Must be a JSON or YAML file');
+				return;
+			}
+		} catch (error) {
+			vscode.window.showErrorMessage(`Parse ${fileInfo.ext} error: ${error}`);
+			return;
+		}
+
+		// 递归遍历 i18n 对象，如果 key 名称里面里面包含了 . - _ 等非字母数字符号，就发出警告并退出
+		// 例如 { 'doc-type': '文档类型' } 这种就不允许
+		const validateI18nObject = (obj: Object, path: string = '') => {
+			for (const key in obj) {
+				if (/[^\w]/gi.test(key)) {
+					vscode.window.showErrorMessage(`Invalid key: "${path}/${key}"`);
+					return false;
+				}
+				if (typeof obj[key] === 'object' && obj[key] !== null) {
+					if (!validateI18nObject(obj[key], `${path}/${key}`)) {
+						return false;
+					}
+				}
+			}
+			return true;
+		};
+
+		if (!validateI18nObject(i18nObject)) {
 			return;
 		}
 
