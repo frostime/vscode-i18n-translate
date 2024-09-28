@@ -1,0 +1,54 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Install dependencies
+      run: |
+        npm install -g @vscode/vsce
+        npm install
+
+    - name: Package Extension
+      run: npm run vsce:pack
+
+    - name: Get Extension Info
+      id: get-extension-info
+      run: |
+        PACKAGE_NAME=$(node -p "require('./package.json').name")
+        PACKAGE_VERSION=$(node -p "require('./package.json').version")
+        echo "name=${PACKAGE_NAME}" >> $GITHUB_OUTPUT
+        echo "version=${PACKAGE_VERSION}" >> $GITHUB_OUTPUT
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./${{ steps.get-extension-info.outputs.name }}-${{ steps.get-extension-info.outputs.version }}.vsix
+        asset_name: ${{ steps.get-extension-info.outputs.name }}-${{ steps.get-extension-info.outputs.version }}.vsix
+        asset_content_type: application/octet-stream

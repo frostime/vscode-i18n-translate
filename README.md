@@ -32,7 +32,7 @@ This extension contributes the following settings:
 3. Type "i18n-translation: Translate I18n" and select it
 4. The extension will translate the file content to the specified target languages, and write the result to the corresponding files in the same directory.
 
-## i18n Text
+## Prompt
 
 The default prompt template for i18n Translation is as follows (in Chinese); if empty, the default prompt will be used.
 
