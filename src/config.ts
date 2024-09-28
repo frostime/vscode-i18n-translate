@@ -3,7 +3,7 @@
  * @Author       : frostime
  * @Date         : 2024-09-28 13:30:49
  * @FilePath     : /src/config.ts
- * @LastEditTime : 2024-09-28 13:48:18
+ * @LastEditTime : 2024-09-28 14:20:27
  * @Description  : 
  */
 import * as vscode from 'vscode';
@@ -16,7 +16,8 @@ export interface I18nConfig {
     toLangs: string[];
 }
 
-const DEFAULT_PROMPT = `## 任务描述
+const DEFAULT_PROMPT = {
+    zh_CN: `## 任务描述
 
 - 任务: 请将翻译 i18n 文件{i18nFile}的内容（见[## i18n 文本]）
 - 要求: 
@@ -27,9 +28,27 @@ const DEFAULT_PROMPT = `## 任务描述
 
 ## i18n 文本
 
-{content}`;
+{content}`,
+    en_US: `## Task Description
+
+- Task: Please translate the content of the i18n file {i18nFile} (see [## i18n Text])
+- Requirements:
+  - Target language for translation: {toLang}
+  - Output the translated result of [## i18n Text] directly, making sure to preserve the source format
+- Dictionary:
+  - empty
+
+## i18n Text
+
+{content}`
+};
+
 
 export class ConfigManager {
+    public getCurrentLanguage(): string {
+        return vscode.env.language;
+    }
+
     private getConfig(): vscode.WorkspaceConfiguration {
         return vscode.workspace.getConfiguration('i18nTranslation');
     }
@@ -47,7 +66,15 @@ export class ConfigManager {
     }
 
     public getPrompt(): string {
-        return this.getConfig().get('prompt', DEFAULT_PROMPT);
+        const currentLang = this.getCurrentLanguage();
+        const config = vscode.workspace.getConfiguration('i18nTranslation');
+        const customPrompt = config.get<string>('prompt');
+
+        if (customPrompt) {
+            return customPrompt;
+        }
+
+        return currentLang.startsWith('zh') ? DEFAULT_PROMPT.zh_CN : DEFAULT_PROMPT.en_US;
     }
 
     public getToLangs(): string[] {

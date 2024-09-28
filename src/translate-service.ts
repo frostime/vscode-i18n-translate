@@ -28,7 +28,7 @@ export class TranslationService {
             }
         );
 
-        const translation = response.data.choices[0].message.content;
+        let translation = response.data.choices[0].message.content;
         return this.postProcessTranslation(translation);
     }
 
@@ -54,10 +54,7 @@ export class TranslationService {
         const regex = /^```(\w+)?/;
         const match = regex.exec(translation);
         if (match) {
-            const lang = match[1];
-            if (lang) {
-                translation = translation.substring(translation.indexOf('\n') + 1);
-            }
+            translation = translation.replace(regex, '');
         }
 
         return translation;

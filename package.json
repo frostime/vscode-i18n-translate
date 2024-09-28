@@ -4,7 +4,7 @@
   "description": "A Visual Studio Code Extension for i18n Translation, powered by GPT API",
   "version": "0.1.0",
   "engines": {
-    "vscode": "^1.93.0"
+    "vscode": "^1.90.0"
   },
   "categories": [
     "Other"
@@ -19,7 +19,7 @@
       }
     ],
     "configuration": {
-      "title": "i18n 翻译",
+      "title": "I18n Translation",
       "properties": {
         "i18nTranslation.GPT.endpoint": {
           "type": "string",
@@ -37,8 +37,8 @@
         },
         "i18nTranslation.prompt": {
           "type": "string",
-          "default": "## 任务描述\n\n- 任务: 请将翻译 i18n 文件{i18nFile}的内容（见[## i18n 文本]）\n- 要求: \n  - 翻译目标语言为: {toLang}\n  - 将[## i18n 文本]翻译之后的结果直接输出，注意要保留源格式\n- 词汇表:\n  - empty\n\n## i18n 文本\n\n{content}",
-          "description": "Prompt Template for i18n Translation. Placeholders: {i18nFile}, {toLang}, {content}"
+          "default": "",
+          "description": "Prompt Template for i18n Translation. The default prompt is applied if this field is empty."
         },
         "i18nTranslation.toLangs": {
           "type": "array",

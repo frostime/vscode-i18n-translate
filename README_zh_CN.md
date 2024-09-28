@@ -9,11 +9,6 @@
 - 可自定义翻译提示模板
 - 在 VSCode 中易于使用的命令
 
-## 要求
-
-- Visual Studio Code ^1.93.0
-- GPT API 密钥
-
 ## 扩展设置
 
 此扩展提供以下设置：
@@ -25,6 +20,9 @@
 * `i18nTranslation.toLangs`: 翻译目标语言
 
 ## 使用方法
+
+> [!TIP]
+> 使用前请首先在设置中配置 GPT API
 
 1. 在 VSCode 中打开一个 i18n 文件（JSON 或 YAML）
 2. 按下 `Ctrl+Shift+P`（在 macOS 上为 `Cmd+Shift+P`）打开命令面板

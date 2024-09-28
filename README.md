@@ -11,10 +11,6 @@ A Visual Studio Code Extension for i18n Translation, powered by GPT API.
 - Customizable translation prompt
 - Easy-to-use command in VSCode
 
-## Requirements
-
-- Visual Studio Code ^1.93.0
-- GPT API Key
 
 ## Extension Settings
 
@@ -28,6 +24,9 @@ This extension contributes the following settings:
 
 ## Usage
 
+> [!TIP]
+> Before using this extension, you need to obtain a GPT API Key and configure the extension settings.
+
 1. Open an i18n file (JSON or YAML) in VSCode
 2. Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on macOS) to open the Command Palette
 3. Type "i18n-translation: Translate I18n" and select it
@@ -35,7 +34,22 @@ This extension contributes the following settings:
 
 ## i18n Text
 
+The default prompt template for i18n Translation is as follows (in Chinese); if empty, the default prompt will be used.
+
+```md
+## Task Description
+
+- Task: Please translate the content of the i18n file {i18nFile} (see [## i18n Text])
+- Requirements:
+  - Target language for translation: {toLang}
+  - Output the translated result of [## i18n Text] directly, making sure to preserve the source format
+- Dictionary:
+  - empty
+
+## i18n Text
+
 {content}
+```
 
 You can use the following variables in the prompt:
 
